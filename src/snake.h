@@ -1,5 +1,7 @@
 #include <stdint.h>
 
+#include "position.h"
+
 enum DIRECTION_CONSTANTS {
     DIRECTION_UP = 0,
     DIRECTION_RIGHT = 1,
@@ -55,9 +57,19 @@ struct snake_position {
 extern struct snake_position snake[];
 
 /**
+ * Whether the snake is still alive.
+ */
+extern uint8_t snake_alive;
+
+/**
  * Flag if we need to draw the whole snake for the first time.
  */
 extern uint8_t snake_initial_draw;
+
+/**
+ * The tail position of the last tick, to remove the tile on the background.
+ */
+extern struct position snake_last_position;
 
 /**
  * Holds the last input where the snake goes next. Can only be UP, RIGHT, DOWN or LEFT.
@@ -83,6 +95,11 @@ void addSnake();
  * Checks if the snake head is on the apple.
  */
 void checkApple();
+
+/**
+ * Checks if the head bumped into something.
+ */
+void checkDeath();
 
 /**
  * Draws the snake on the screen.

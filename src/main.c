@@ -15,8 +15,6 @@ void main() {
     set_bkg_data(0, snake_tiles_count, snake_tiles);
     clearScreen();
     initSnake();
-    drawSnake();
-    setRandomApple();
 
     const uint8_t frames_wait = 10;
     uint8_t frames_left = frames_wait;
@@ -37,12 +35,19 @@ void main() {
         } else if (joy_pad_now & J_LEFT && DIRECTION_RIGHT != snake[0].direction) {
             setSnakeDirection(DIRECTION_LEFT);
         }
+        if (0 == snake_alive && joy_pad_now & J_START) {
+            initSnake();
+        }
 
         frames_left--;
         if (0 == frames_left) {
             frames_left = frames_wait;
-            moveSnake();
-            drawSnake();
+            if (snake_alive) {
+                moveSnake();
+                if (snake_alive) {
+                    drawSnake();
+                }
+            }
         }
 
         wait_vbl_done();

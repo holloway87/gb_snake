@@ -37,7 +37,7 @@ Todo
 ----
 
 * find a more efficient way to place a new apple at random location
-* add death mechanism
+* initialize the random seed at the beginning
 * add levels with different borders
 * add score
 * add menu

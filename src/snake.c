@@ -5,7 +5,9 @@
 #include "snake.h"
 
 struct snake_position snake[360];
+uint8_t snake_alive = 1;
 uint8_t snake_initial_draw = 1;
+struct position snake_last_position;
 uint8_t snake_new_direction = DIRECTION_UP;
 uint16_t snake_size = 0;
 uint8_t snake_tiles_add = 0;
@@ -13,8 +15,8 @@ uint8_t snake_tiles_add = 0;
 void addSnake() {
     snake_size++;
     if (1 == snake_size) {
-        snake[0].x = 0;
-        snake[0].y = 1;
+        snake[0].x = 10;
+        snake[0].y = 9;
         snake[0].direction = DIRECTION_UP;
         snake_new_direction = DIRECTION_UP;
 
@@ -52,6 +54,16 @@ void checkApple() {
     }
 }
 
+void checkDeath() {
+    for (uint16_t index = 1; index < snake_size; index++) {
+        if (snake[index].x == snake[0].x && snake[index].y == snake[0].y) {
+            snake_alive = 0;
+
+            break;
+        }
+    }
+}
+
 void drawSnake() {
     if (1 == snake_initial_draw) {
         for (uint16_t index = 0; index < snake_size; index++) {
@@ -61,6 +73,10 @@ void drawSnake() {
 
         return;
     }
+
+    // we need to clear the screen on the last tile if no new
+    // tiles are being added, otherwise it would stay there
+    set_bkg_tile_xy(snake_last_position.x, snake_last_position.y, EMPTY_BACKGROUND);
 
     // Only draw the head, the second tile and the tail, the rest stays the same during the movement
     drawSnakeTile(0);
@@ -152,17 +168,32 @@ void drawSnakeTile(uint16_t index) {
 }
 
 void initSnake() {
+    // remove old snake from the screen
+    if (snake_size) {
+        for (uint16_t index = 0; index < snake_size; index++) {
+            set_bkg_tile_xy(snake[index].x, snake[index].y, EMPTY_BACKGROUND);
+        }
+        set_bkg_tile_xy(snake_last_position.x, snake_last_position.y, EMPTY_BACKGROUND);
+
+        set_bkg_tile_xy(apple_pos.x, apple_pos.y, EMPTY_BACKGROUND);
+    }
+
+    snake_alive = 1;
+    snake_size = 0;
+
     // add 3 snake tiles for the beginning
     addSnake();
     addSnake();
     addSnake();
+    drawSnake();
+
+    setRandomApple();
 }
 
 void moveSnake() {
     if (0 == snake_tiles_add) {
-        // we need to clear the screen on the last tile if no new
-        // tiles are being added, otherwise it would stay there
-        set_bkg_tile_xy(snake[snake_size -1].x, snake[snake_size -1].y, EMPTY_BACKGROUND);
+        snake_last_position.x = snake[snake_size -1].x;
+        snake_last_position.y = snake[snake_size -1].y;
     } else {
         addSnake();
         snake_tiles_add--;
@@ -228,6 +259,7 @@ void moveSnake() {
             }
     }
     checkApple();
+    checkDeath();
 }
 
 void setSnakeDirection(uint8_t direction) {
