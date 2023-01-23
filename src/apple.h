@@ -5,6 +5,9 @@
  */
 extern struct position apple_pos;
 
+extern struct position position_list[];
+extern uint16_t position_list_max;
+
 /**
  * Draws the apple on the map.
  */
