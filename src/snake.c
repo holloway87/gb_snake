@@ -200,16 +200,32 @@ void moveSnake() {
     snake[0].direction = snake_new_direction;
     switch (snake[0].direction) {
         case DIRECTION_UP:
-            snake[0].y -= 1;
+            if (0 == snake[0].y) {
+                snake[0].y = 17;
+            } else {
+                snake[0].y -= 1;
+            }
             break;
         case DIRECTION_RIGHT:
-            snake[0].x += 1;
+            if (19 == snake[0].x) {
+                snake[0].x = 0;
+            } else {
+                snake[0].x += 1;
+            }
             break;
         case DIRECTION_DOWN:
-            snake[0].y += 1;
+            if (17 == snake[0].y) {
+                snake[0].y = 0;
+            } else {
+                snake[0].y += 1;
+            }
             break;
         case DIRECTION_LEFT:
-            snake[0].x -= 1;
+            if (0 == snake[0].x) {
+                snake[0].x = 19;
+            } else {
+                snake[0].x -= 1;
+            }
     }
     checkApple();
 }

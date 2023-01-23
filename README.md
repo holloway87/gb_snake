@@ -37,7 +37,6 @@ Todo
 ----
 
 * find a more efficient way to place a new apple at random location
-* add loop mechanism
 * add death mechanism
 * add levels with different borders
 * add score
