@@ -36,7 +36,6 @@ needed.
 Todo
 ----
 
-* fix movement check to not go back the way you came from
 * add new apple at random location
 * add loop mechanism
 * add death mechanism

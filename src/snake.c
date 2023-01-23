@@ -157,6 +157,26 @@ void moveSnake() {
         snake_tiles_add--;
     }
 
+    if (snake[0].direction != snake_new_direction) {
+        if (DIRECTION_RIGHT == snake_new_direction && DIRECTION_UP == snake[0].direction) {
+            snake[0].direction = DIRECTION_RIGHT_UP;
+        } else if (DIRECTION_DOWN == snake_new_direction && DIRECTION_LEFT == snake[0].direction) {
+            snake[0].direction = DIRECTION_DOWN_LEFT;
+        } else if (DIRECTION_DOWN == snake_new_direction && DIRECTION_RIGHT == snake[0].direction) {
+            snake[0].direction = DIRECTION_DOWN_RIGHT;
+        } else if (DIRECTION_LEFT == snake_new_direction && DIRECTION_UP == snake[0].direction) {
+            snake[0].direction = DIRECTION_LEFT_UP;
+        } else if (DIRECTION_UP == snake_new_direction && DIRECTION_RIGHT == snake[0].direction) {
+            snake[0].direction = DIRECTION_UP_RIGHT;
+        } else if (DIRECTION_LEFT == snake_new_direction && DIRECTION_DOWN == snake[0].direction) {
+            snake[0].direction = DIRECTION_LEFT_DOWN;
+        } else if (DIRECTION_UP == snake_new_direction && DIRECTION_LEFT == snake[0].direction) {
+            snake[0].direction = DIRECTION_UP_LEFT;
+        } else if (DIRECTION_RIGHT == snake_new_direction && DIRECTION_DOWN == snake[0].direction) {
+            snake[0].direction = DIRECTION_RIGHT_DOWN;
+        }
+    }
+
     // copy all positions from the back to the front to move every tile
     // forward, except for the head
     for (uint16_t i = snake_size -1; i > 0; i--) {
@@ -184,23 +204,5 @@ void moveSnake() {
 }
 
 void setSnakeDirection(uint8_t direction) {
-    if (DIRECTION_RIGHT == direction && DIRECTION_UP == snake[0].direction) {
-        snake[0].direction = DIRECTION_RIGHT_UP;
-    } else if (DIRECTION_DOWN == direction && DIRECTION_LEFT == snake[0].direction) {
-        snake[0].direction = DIRECTION_DOWN_LEFT;
-    } else if (DIRECTION_DOWN == direction && DIRECTION_RIGHT == snake[0].direction) {
-        snake[0].direction = DIRECTION_DOWN_RIGHT;
-    } else if (DIRECTION_LEFT == direction && DIRECTION_UP == snake[0].direction) {
-        snake[0].direction = DIRECTION_LEFT_UP;
-    } else if (DIRECTION_UP == direction && DIRECTION_RIGHT == snake[0].direction) {
-        snake[0].direction = DIRECTION_UP_RIGHT;
-    } else if (DIRECTION_LEFT == direction && DIRECTION_DOWN == snake[0].direction) {
-        snake[0].direction = DIRECTION_LEFT_DOWN;
-    } else if (DIRECTION_UP == direction && DIRECTION_LEFT == snake[0].direction) {
-        snake[0].direction = DIRECTION_UP_LEFT;
-    } else if (DIRECTION_RIGHT == direction && DIRECTION_DOWN == snake[0].direction) {
-        snake[0].direction = DIRECTION_RIGHT_DOWN;
-    }
-
     snake_new_direction = direction;
 }
