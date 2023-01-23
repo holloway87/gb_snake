@@ -53,14 +53,22 @@ struct snake_position {
  * The first tile is the head, the last one the tail.
  */
 extern struct snake_position snake[];
+
+/**
+ * Flag if we need to draw the whole snake for the first time.
+ */
+extern uint8_t snake_initial_draw;
+
 /**
  * Holds the last input where the snake goes next. Can only be UP, RIGHT, DOWN or LEFT.
  */
 extern uint8_t snake_new_direction;
+
 /**
  * The current snake length.
  */
 extern uint16_t snake_size;
+
 /**
  * The amount of snake tiles to add to the end.
  */

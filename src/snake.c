@@ -5,6 +5,7 @@
 #include "snake.h"
 
 struct snake_position snake[360];
+uint8_t snake_initial_draw = 1;
 uint8_t snake_new_direction = DIRECTION_UP;
 uint16_t snake_size = 0;
 uint8_t snake_tiles_add = 0;
@@ -52,9 +53,19 @@ void checkApple() {
 }
 
 void drawSnake() {
-    for (uint16_t index = 0; index < snake_size; index++) {
-        drawSnakeTile(index);
+    if (1 == snake_initial_draw) {
+        for (uint16_t index = 0; index < snake_size; index++) {
+            drawSnakeTile(index);
+        }
+        snake_initial_draw = 0;
+
+        return;
     }
+
+    // Only draw the head, the second tile and the tail, the rest stays the same during the movement
+    drawSnakeTile(0);
+    drawSnakeTile(1);
+    drawSnakeTile(snake_size -1);
 }
 
 void drawSnakeTile(uint16_t index) {
