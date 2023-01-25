@@ -1,11 +1,15 @@
 #include <gb/gb.h>
+#include <rand.h>
 
 #include "../res/snake.h"
 #include "apple.h"
+#include "game.h"
 #include "snake.h"
 
 struct snake_position snake[360];
 uint8_t snake_alive = 1;
+uint8_t snake_frames_wait = 10;
+uint8_t snake_frames_left = 10;
 uint8_t snake_initial_draw = 1;
 struct position snake_last_position;
 uint8_t snake_new_direction = DIRECTION_UP;
@@ -124,8 +128,6 @@ void drawSnakeTile(uint16_t index) {
             case DIRECTION_LEFT_UP:
                 tile = SNAKE_TAIL_RIGHT;
                 break;
-            default:
-
         }
     } else {
         /*
@@ -180,6 +182,7 @@ void initSnake() {
 
     snake_alive = 1;
     snake_size = 0;
+    snake_initial_draw = 1;
 
     // add 3 snake tiles for the beginning
     addSnake();
@@ -187,6 +190,7 @@ void initSnake() {
     addSnake();
     drawSnake();
 
+    initrand(DIV_REG);
     setRandomApple();
 }
 
@@ -264,4 +268,30 @@ void moveSnake() {
 
 void setSnakeDirection(uint8_t direction) {
     snake_new_direction = direction;
+}
+
+void snakeUpdate() {
+    if (joy_pad_now & J_UP && DIRECTION_DOWN != snake[0].direction) {
+        setSnakeDirection(DIRECTION_UP);
+    } else if (joy_pad_now & J_RIGHT && DIRECTION_LEFT != snake[0].direction) {
+        setSnakeDirection(DIRECTION_RIGHT);
+    } else if (joy_pad_now & J_DOWN && DIRECTION_UP != snake[0].direction) {
+        setSnakeDirection(DIRECTION_DOWN);
+    } else if (joy_pad_now & J_LEFT && DIRECTION_RIGHT != snake[0].direction) {
+        setSnakeDirection(DIRECTION_LEFT);
+    }
+    if (0 == snake_alive && joy_pad_now & J_START) {
+        initSnake();
+    }
+
+    snake_frames_left--;
+    if (0 == snake_frames_left) {
+        snake_frames_left = snake_frames_wait;
+        if (snake_alive) {
+            moveSnake();
+            if (snake_alive) {
+                drawSnake();
+            }
+        }
+    }
 }

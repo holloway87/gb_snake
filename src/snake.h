@@ -62,6 +62,16 @@ extern struct snake_position snake[];
 extern uint8_t snake_alive;
 
 /**
+ * How many frame we wait until the snake moves again.
+ */
+extern uint8_t snake_frames_wait;
+
+/**
+ * How many frame are left until we move the snake again.
+ */
+extern uint8_t snake_frames_left;
+
+/**
  * Flag if we need to draw the whole snake for the first time.
  */
 extern uint8_t snake_initial_draw;
@@ -129,3 +139,8 @@ void moveSnake();
  * @param direction
  */
 void setSnakeDirection(uint8_t direction);
+
+/**
+ * Update the logic in the game state.
+ */
+void snakeUpdate();
