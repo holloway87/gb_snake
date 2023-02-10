@@ -1,16 +1,17 @@
 C_SOURCES = $(wildcard src/*.c res/*.c)
 OBJ = ${C_SOURCES:.c=.o}
+CC=~/Programs/gbdk/bin/lcc
 
 all : gb_snake.gb
 
 run : all
 	mgba-qt gb_snake.gb
 
-gb_snake.gb : ${OBJ}
-	~/Programs/gbdk/bin/lcc -o $@ $^
+gb_snake.gb : $(OBJ)
+	$(CC) -o $@ $^
 
 %.o : %.c
-	~/Programs/gbdk/bin/lcc -c -o $@ $<
+	$(CC) -c -o $@ $<
 
 clean:
 	rm res/*.asm
