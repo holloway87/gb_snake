@@ -4,6 +4,8 @@ CC=~/Programs/gbdk/bin/lcc
 
 all : gb_snake.gb
 
+build : all
+
 run : all
 	mgba-qt gb_snake.gb
 
