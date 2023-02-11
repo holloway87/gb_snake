@@ -134,8 +134,20 @@ void checkDeath() {
     } while (360 > counter);
 }
 
+void drawGameOver() {
+    for (uint8_t y = 0; y < 18; y++) {
+        for (uint8_t x = 0; x < 20; x++) {
+            set_bkg_tile_xy(x, y, EMPTY_BACKGROUND);
+        }
+    }
+    set_bkg_tiles(6, 5, 6, 1, snake_game_over_map);
+    set_bkg_tiles(2, 9, 15, 2, snake_try_again_map);
+    move_bkg(-5, 0);
+}
+
 void drawSnake() {
     if (1 == snake_initial_draw) {
+        move_bkg(0, 0);
         game_field_ptr = game_field;
         uint16_t counter = 0;
         do {
@@ -494,13 +506,17 @@ void snakeUpdate() {
         drawSnake();
     }
 
-    snake_frames_left--;
-    if (0 == snake_frames_left) {
-        snake_frames_left = snake_frames_wait;
-        if (snake_alive) {
-            moveSnake();
+    if (1 == snake_alive) {
+        snake_frames_left--;
+        if (0 == snake_frames_left) {
+            snake_frames_left = snake_frames_wait;
             if (snake_alive) {
-                drawSnake();
+                moveSnake();
+                if (snake_alive) {
+                    drawSnake();
+                } else {
+                    drawGameOver();
+                }
             }
         }
     }

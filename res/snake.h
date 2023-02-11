@@ -1,6 +1,6 @@
 #include <stdint.h>
 
-#define snake_tiles_count 16
+#define snake_tiles_count 62
 #define EMPTY_BACKGROUND 0
 #define SNAKE_HEAD_UP 1
 #define SNAKE_HEAD_RIGHT 2
@@ -19,3 +19,7 @@
 #define APPLE 15
 
 extern const uint8_t snake_tiles[];
+
+extern const uint8_t snake_game_over_map[];
+
+extern const uint8_t snake_try_again_map[];

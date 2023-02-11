@@ -141,6 +141,11 @@ void checkApple();
 void checkDeath();
 
 /**
+ * Draws the game over screen.
+ */
+void drawGameOver();
+
+/**
  * Draws the snake on the screen.
  */
 void drawSnake();
