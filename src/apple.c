@@ -14,26 +14,21 @@ void drawApple() {
 }
 
 void setRandomApple() {
-    // this is VERY inefficient
     position_list_max = 0;
-    for (uint8_t y = 0; y < 18; y++) {
-        for (uint8_t x = 0; x < 20; x++) {
-            uint8_t found = 0;
-            for (uint16_t i = 0; i < snake_size; i++) {
-                if (x == snake[i].x && y == snake[i].y) {
-                    found = 1;
-                    break;
-                }
-            }
-            if (!found) {
-                position_list[position_list_max].x = x;
-                position_list[position_list_max].y = y;
-                position_list_max++;
-            }
+    game_field_ptr = game_field;
+    uint16_t counter = 0;
+    do {
+        if (0 == game_field_ptr->has_snake) {
+            position_list[position_list_max].x = game_field_ptr->x;
+            position_list[position_list_max].y = game_field_ptr->y;
+            position_list_max++;
         }
-    }
 
-    uint16_t index = randw() % (position_list_max +1);
+        game_field_ptr++;
+        counter++;
+    } while (360 > counter);
+
+    uint16_t index = randw() % position_list_max;
 
     apple_pos.x = position_list[index].x;
     apple_pos.y = position_list[index].y;

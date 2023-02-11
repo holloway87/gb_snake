@@ -36,7 +36,6 @@ needed.
 Todo
 ----
 
-* find a more efficient way to place a new apple at random location
 * add levels with different borders
 * add score
 * add menu

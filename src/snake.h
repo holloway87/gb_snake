@@ -42,6 +42,26 @@ enum DIRECTION_CONSTANTS {
 };
 
 /**
+ * Holds information about every game field.
+ */
+struct game_field_info {
+    uint8_t x;
+    uint8_t y;
+    uint8_t direction;
+    uint8_t has_snake;
+};
+
+/**
+ * Game field info.
+ */
+extern struct game_field_info game_field[];
+
+/**
+ * Advancing pointer for the game field info.
+ */
+extern struct game_field_info *game_field_ptr;
+
+/**
  * Snake tile position with an x and y coordinate and the direction the tile is moving.
  */
 struct snake_position {
@@ -51,15 +71,14 @@ struct snake_position {
 };
 
 /**
- * All the snake tiles on the map.
- * The first tile is the head, the last one the tail.
- */
-extern struct snake_position snake[];
-
-/**
  * Whether the snake is still alive.
  */
 extern uint8_t snake_alive;
+
+/**
+ * The first body part of the snake after the head.
+ */
+extern struct snake_position snake_body_first;
 
 /**
  * How many frame we wait until the snake moves again.
@@ -70,6 +89,11 @@ extern uint8_t snake_frames_wait;
  * How many frame are left until we move the snake again.
  */
 extern uint8_t snake_frames_left;
+
+/**
+ * The heads position and direction.
+ */
+extern struct snake_position snake_head;
 
 /**
  * Flag if we need to draw the whole snake for the first time.
@@ -90,6 +114,11 @@ extern uint8_t snake_new_direction;
  * The current snake length.
  */
 extern uint16_t snake_size;
+
+/**
+ * The tails position and direction.
+ */
+extern struct snake_position snake_tail;
 
 /**
  * The amount of snake tiles to add to the end.
@@ -119,9 +148,17 @@ void drawSnake();
 /**
  * Draws a snake tile on the screen.
  *
- * @param index
+ * @param game_field_index
  */
-void drawSnakeTile(uint16_t index);
+void drawSnakeTile(struct game_field_info *game_field_index);
+
+/**
+ * Returns the index from the previous tile.
+ *
+ * @param tile the current tile
+ * @return the index from the previous tile
+ */
+uint16_t getPreviousTileIndex(struct snake_position *tile);
 
 /**
  * Initiates the snake tiles.
@@ -132,6 +169,11 @@ void initSnake();
  * Moves the snake one tile.
  */
 void moveSnake();
+
+/**
+ * Moves one snake tile.
+ */
+void moveSnakeTile(struct snake_position *tile);
 
 /**
  * Sets the new direction for the snake movement, can only be UP, RIGHT, DOWN or LEFT.
